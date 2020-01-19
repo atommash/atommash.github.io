@@ -1,0 +1,156 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	color:#000;
+	background: linear-gradient(180deg, rgb(35,35,75), rgb(15,105,150));
+	font:normal 12pt Georgia,serif;
+	overflow: hidden;
+
+	/* Запретить выделение текста */
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	user-select:none;
+}
+
+ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+a {
+	color:#fff;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+
+.hidden {
+	transition:1s;
+	visibility:hidden;
+	transform:translate(-10px,10px);
+	opacity:0;
+}
+
+.move {
+	cursor:move;
+}
+
+.dialog {
+	z-index:100;
+	position:absolute;
+	top:30px;
+	left:30px;
+	max-width:300px;
+	/*min-width:200px;*/
+	box-shadow: 0 0 10px 0 rgba(0,0,0,.75);
+	background: linear-gradient(0deg, #2b5876 0%, #4e4376 100%);
+}
+.dialog-title {
+	height:40px;
+	line-height:40px;
+	color: #fff;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 10px;
+}
+.dialog-title a {
+	color: #fff;
+	text-decoration: none;
+}
+.dialog-title a:hover {
+	color:#bbb;
+}
+.dialog-text {
+	background: #fff;
+	border:1px solid #999;
+	box-shadow: inset 0 0 10px 0 rgba(0,0,0,.5);
+	padding: 10px;
+	margin: 0 5px 5px 5px;
+	resize:block;
+	overflow-y:hidden;
+}
+.dialog-text a {
+	color:#f70;
+}
+
+.messages {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+.info, .success, .error, .warring {
+	width:200px;
+	padding: 12px;
+	margin-bottom: 2px;
+}
+.info {
+	color:#00529B;
+	background: #BDE5F8;
+}
+.success {
+	color: #4F8A10;
+	background: #DFF2BF;
+}
+.error {
+	color: #D8000C;
+	background: #FFD2D2;
+}
+.warring {
+	color: #9F6000;
+	background: #FEEFB3;
+}
+
+.infoProperties {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	font-size: 0.8em;
+	color: #fff;
+	line-height:0.8em;
+}
+
+.infoMouse {
+	position: absolute;
+	z-index: 100;
+	color:#fff;
+	border-radius:3px;
+	background: #444;
+	padding:3px;
+}
+
+/* SVGEditor */
+#svgeditor {
+	cursor: crosshair;
+	position:absolute;
+	z-index:100;
+	top:0;
+	left:0;
+}
+
+#svg {}
+
+.active {
+	stroke: #0f0 !important;
+	marker-start: url(#magnet);
+	marker-end: url(#magnet);
+}
+
+.buttons {
+	cursor: pointer;
+}
+.buttons *:hover {
+	fill: #444;
+}
+
+.svgDragover {
+	outline:10px dashed #f00;
+}

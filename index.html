@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>&#128293; Atom Engine Rev6</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" type="text/css" href="./style.svg.css">
+	<script type="text/javascript" src="./functions.js"></script>
+	<script type="text/javascript" src="./bubbles.js"></script>
+	<script type="module" src="./engine.js"></script>
+</head>
+<body>
+	<svg id="toolbar" width="32" height="256">
+		<defs>
+			<marker id="bPoint" viewBox="0 0 6 6" refX="3" refY="3">
+				<circle cx="3" cy="3" r="3" fill="#f00"></circle>
+			</marker>
+
+			<marker id="bArrow-start" viewBox="0 0 6 6" refX="3" refY="3">
+				<path d="M0 3 L6 0 L6 6 z" fill="#f00"></path>
+			</marker>
+
+			<marker id="bArrow-end" viewBox="0 0 6 6" refX="3" refY="3">
+				<path d="M6 3 L0 0 L0 6 z" fill="#f00"></path>
+			</marker>
+		</defs>
+
+		<defs>
+			<g id="bLine">
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<path d="M6 16 H26" fill="transparent" stroke="#fff" stroke-width="2"
+				marker-start="url(#bPoint)" marker-end="url(#bPoint)"><title>Нарисовать линию</title></path>
+			</g>
+
+			<g id="bRect">
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<path d="M8 10 H26 V20 M8 10 V20 H26" fill="transparent" stroke="#fff" stroke-width="2"
+					marker-start="url(#bPoint)" marker-end="url(#bPoint)"><title>Нарисовать квадрат</title>
+				</path>
+			</g>
+
+			<g id="bCircle">
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<path d="M 16, 16 m -7.5, 0 a 7.5, 7.5 0 1, 0 15, 0 a 7.5, 7.5 0 1, 0 -15 0" fill="transparent" stroke="#fff" stroke-width="2"
+					marker-start="url(#bPoint)" marker-end="url(#bPoint)"><title>Нарисовать круг</title></path>
+			</g>
+
+			<g id="bSize">
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<path d="M6 16 H26" fill="transparent" stroke="#fff" stroke-width="2"
+					marker-start="url(#bArrow-start)" marker-end="url(#bArrow-end)"><title>Нарисовать линию</title></path>
+			</g>
+
+			<g id="bText">
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<text x="10" y="24" font-family="sans-sefi" font-size="24px" fill="#f00">T</text>
+			</g>
+			
+			<g id="bSave" fill="transparent" stroke="#000" stroke-width="2">
+				<polygon points="25 1 1 1 1 31 31 31 31 7 25 1"></polygon>
+				<polyline points="25 1 25 11 7 11 7 1"></polyline>
+				<circle cx="16" cy="21" r="4"></circle>
+			</g>
+			
+			<g id="bPen">
+				<!-- https://www.iconfinder.com/icons/3671830/pen_tool_icon -->
+				<rect x="0" y="0" width="32" height="32"></rect>
+				<path d="M11 9 V0 l6 11 -4 6 H7 l-4 -6 L9 0 v9 a 2 2 0 1 0 2 0 z M6 18 h8 v2 H6 v-2 z" fill="#fff"></path>
+			</g>
+		</defs>
+
+		<g class="buttons">
+			<use xlink:href="#bLine" x="0" y="0" onclick="engine.setTool('line')"></use>
+			<use xlink:href="#bRect" x="0" y="34" onclick="engine.setTool('rect')"></use>
+			<use xlink:href="#bCircle" x="0" y="66" onclick="engine.setTool('circle')"></use>
+			<use xlink:href="#bPen" x="0" y="100" onclick="engine.setTool('pen')"></use>
+
+			<use xlink:href="#bSize" x="0" y="134" onclick="engine.setTool('size')"></use>
+			<use xlink:href="#bText" x="0" y="168" onclick="engine.setTool('text')"></use>
+			<use xlink:href="#bSave" x="0" y="202" onclick="file.save()"></use>
+		</g>
+	</svg>
+
+<div id="svgeditor">
+	<svg id="svg" width="297" height="210" viewBox="0 0 297 210" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<defs>
+			<!-- markerUnits="userSpaceOnUse|strokeWidth" -->
+			<marker id="arrow-start" markerUnits="userSpaceOnUse" viewBox="0 0 6 6" orient="auto" markerWidth="3" markerHeight="3" refX="3" refY="3">
+				<path d="M0 3 L6 0 L5 3 L6 6 z" fill="#000"></path>
+			</marker>
+
+			<marker id="arrow-end" markerUnits="userSpaceOnUse" viewBox="0 0 6 6" orient="auto" markerWidth="3" markerHeight="3" refX="3" refY="3">
+				<path d="M6 3 L0 0 L1 3 L0 6 z" fill="#000"></path>
+			</marker>
+
+			<marker id="magnet" markerUnits="userSpaceOnUse" viewBox="0 0 3 3" orient="auto" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5">
+				<rect x="0" y="0" width="3" height="3" fill="transparent" stroke="#000"></rect>
+			</marker>
+		</defs>
+
+		<rect x="0" y="0" width="500" height="500" fill="#fff"></rect>
+
+		<svg id="pattern">
+			<defs>
+				<g id="Б5ф1">
+					<path d="M0 0 h287
+						M0 8.5 h287
+							M0 0 v8.5
+							M149.2 0 v8.5
+							M211 0 v8.5
+							M257.8 0 v8.5
+							M273.4 0 v8.5
+							M287 0 v8.5" class="line-style-bold"></path>
+				</g>
+
+				<g id="Б3ф1а">
+					<path d="M0 0 h80.6
+						M0 4.25 h80.6
+						M0 8.5 h80.6
+						M0 12.75 h80.6
+						M0 17 h80.6
+							M0 0 v17
+							M10.4 0 v17
+							M20.8 0 v17
+							M44.2 0 v17
+							M44.2 0 v17
+							M65 0 v17
+							M80.6 0 v17" class="line-style-bold"></path>
+				</g>
+
+				<g id="Б3ф1б">
+					<path d="M0 0 h80.6
+						M0 4.25 h80.6
+						M0 8.5 h80.6
+						M0 12.75 h80.6
+							M0 0 v12.75
+							M10.4 0 v12.75
+							M20.8 0 v12.75
+							M44.2 0 v12.75
+							M65 0 v12.75
+							M80.6 0 v12.75" class="line-style-bold"></path>
+				</g>
+
+				<g id="Б2ф1">
+					<path d="M0 0 h96.2
+						M0 4.25 h96.2
+						M0 8.5 h96.2
+						M0 12.75 h96.2
+						M0 17 h96.2
+						M0 21.25 h96.2
+							M0 0 v21.25
+							M23.4 0 v21.25
+							M59.8 0 v21.25
+							M80.6 0 v21.25
+							M96.2 0 v21.25" class="line-style-bold"></path>
+					<g font-size="3px" class="color-black">
+						<text x="3" y="3">Разраб.</text>
+						<text x="3" y="20">Н.контр.</text>
+						<text x="27" y="3">Автор</text>
+						<text x="27" y="20">Автор</text>
+					</g>
+				</g>
+
+				<g id="Б1ф3">
+					<path d="M0 0 h190.8
+						M0 12.75 h190.8
+						M0 21.25 h190.8
+							M0 0 v21.25
+							M42.6 0 v12.75
+							M102.4 0 v12.75
+							M144 0 v12.75
+							M190.8 0 v21.25
+								M13 12.75 v8.5
+								M159.6 12.75 v8.5
+								M170 12.75 v8.5
+								M180.4 12.75 v8.5" class="line-style-bold"></path>
+					<g font-size="6px" class="color-black">
+						<text x="8" y="8">SVG CAD</text>
+						<text x="52" y="8">00000.00001</text>
+						<text x="148" y="8">00000.00001</text>
+						<text x="52" y="19">Деталь</text>
+					</g>
+				</g>
+
+				<g id="Б4ф1">
+					<path d="M0 0 h75.4
+						M0 4.25 h75.4 
+						M0 8.5 h75.4 
+						M0 12.75 h75.4 
+							M0 0 v12.75 
+							M18.2 0 v12.75
+							M39 0 v12.75
+							M59.8 0 v12.75
+							M75.4 0 v12.75" class="line-style-bold"></path>
+					<g font-size="3px" class="color-black">
+						<text x="3" y="3">Дубл.</text>
+						<text x="3" y="7.5">Взам.</text>
+						<text x="3" y="12">Подп.</text>
+					</g>
+				</g>
+
+				<g id="Б6ф1">
+					<path d="M0 0 h287
+						M0 8.5 h287
+						M0 0 v8.5 
+						M23.4 0 v8.5 
+						M229.8 0 v8.5 
+						M271.4 0 v8.5
+						M287 0 v8.5" class="line-style-bold"></path>
+					<g font-size="6px" class="color-black">
+						<text x="5" y="6">КЭ</text>
+					</g>
+				</g>
+			</defs>
+
+			<text x="280" y="3" font-size="3px" class="color-black">Форма 7</text>
+
+			<g>
+				<path d="M5 52 v145
+					M292 52 v145" class="line-style-bold"></path>
+
+				<use xlink:href="#Б6ф1" x="5" y="196.5"></use>
+				<use xlink:href="#Б4ф1" x="5" y="9.25"></use>
+				<use xlink:href="#Б3ф1а" x="211.4" y="5"></use>
+				<use xlink:href="#Б3ф1б" x="130.8" y="9.25"></use>
+				<use xlink:href="#Б5ф1" x="5" y="22"></use>
+				<use xlink:href="#Б2ф1" x="5" y="30.5"></use>
+				<use xlink:href="#Б1ф3" x="101.2" y="30.5"></use>
+			</g>
+		</svg>
+	</svg>
+</div>
+</body>
+</html>
